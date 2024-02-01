@@ -9,9 +9,9 @@ const argv = yargs(hideBin(process.argv)).option('url', {
   type: 'string',
   demandOption: true, // URL is required
 })
-.option('pricetag', {
+.option('pricecap', {
   alias: 'p',
-  describe: 'Higher price tag',
+  describe: 'Price cap',
   type: 'integer',
   demandOption: false, // URL is required
   default: 2000, // Default to true if not specified
@@ -20,7 +20,7 @@ const argv = yargs(hideBin(process.argv)).option('url', {
 
 (async () => {
   const scraping_page = argv.url;
-  const pricetag = argv.pricetag;
+  const pricecap = argv.pricecap;
 
   if (!scraping_page) {
     console.error('Please provide a URL as a command line argument such as \n > node scrape.js --url https://www.apple.com/shop/refurbished/mac/2022-macbook-air-16gb');
@@ -44,7 +44,7 @@ const argv = yargs(hideBin(process.argv)).option('url', {
       const integers = prices.map(price => parseInt(price.replace(/[^0-9]/g, '').slice(0, -2))); // [1549, 1549, 1909]
       console.log(`All Prices: ${integers}`);
 
-      const match = integers.filter(price => price < pricetag);
+      const match = integers.filter(price => price < pricecap);
       if (match.length > 0) {
         console.log(`Matches: ${match}`);
         // opens the url in the default browser 
