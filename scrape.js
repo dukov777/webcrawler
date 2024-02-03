@@ -9,14 +9,14 @@ const argv = yargs(hideBin(process.argv)).option('url', {
   type: 'string',
   demandOption: true, // URL is required
 })
-.option('pricecap', {
-  alias: 'p',
-  describe: 'Price cap',
-  type: 'integer',
-  demandOption: false, // URL is required
-  default: 2000, // Default to true if not specified
-})
-.argv;
+  .option('pricecap', {
+    alias: 'p',
+    describe: 'Price cap',
+    type: 'integer',
+    demandOption: false, // URL is required
+    default: 2000, // Default to true if not specified
+  })
+  .argv;
 
 (async () => {
   const scraping_page = argv.url;
@@ -29,7 +29,14 @@ const argv = yargs(hideBin(process.argv)).option('url', {
 
   console.log(`Scrapping page: ${scraping_page}`);
 
-  const browser = await puppeteer.launch({ headless: "new" });
+  const browser = await puppeteer.launch({
+    args: [
+      '--no-sandbox',
+    ],
+    headless: "new", executablePath: '/usr/bin/chromium'
+    // headless: "new", executablePath: '/opt/homebrew/bin/chromium'
+  });
+
   const page = await browser.newPage();
   await page.goto(scraping_page);
 
