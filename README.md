@@ -11,4 +11,9 @@ Scrape website `-u <url>` with pricecap `-p` of 2000$. If it finds a items bello
 
 ```node scrape.js -u https://www.apple.com/shop/refurbished/mac/512gb-2023-14-inch-macbook-pro-16gb -p 2000```
 
+# Build and Run Container
+
+`docker build -t my-nodejs-app . `
+
+`docker run -it my-nodejs-app  node scrape.js -u https://www.apple.com/shop/refurbished/mac/512gb-2022-macbook-air-16gb -p 1400`
 
