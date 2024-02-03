@@ -34,7 +34,7 @@ const argv = yargs(hideBin(process.argv)).option('url', {
     args: [
       '--no-sandbox',
     ],
-    headless: "new", executablePath: '/opt/homebrew/bin/chromium'
+    headless: "new"
   });
 
   const page = await browser.newPage();

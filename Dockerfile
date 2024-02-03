@@ -1,51 +1,40 @@
-# Use the official Node.js 16 image based on Debian Buster as a parent image
-FROM node:16-buster
+# Use an official Node.js runtime as a parent image with the target platform specified
+FROM --platform=linux/amd64 node:16-buster
 
-# Set the working directory in the container to /app
-WORKDIR /app
+# Set environment variables for headless chrome
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 
-# Install dependencies required for Puppeteer and Git
+# Install dependencies required for headless Chrome
 RUN apt-get update && apt-get install -y \
     wget \
     gnupg \
     ca-certificates \
-    procps \
-    libxshmfence-dev \
-    libgbm-dev \
-    git \
-    openssh-client \
-    chromium \
-    --no-install-recommends \
+    apt-transport-https \
+    software-properties-common \
     && rm -rf /var/lib/apt/lists/*
 
-# apt-get update
-# apt-get install -y chromium
-ENV CHROMIUM /usr/bin/chromium
+# If you're using Puppeteer, install it globally
+# WORKDIR /node_modules
+# RUN npm install puppeteer
+# # Add Puppeteer to PATH
+# ENV PATH="/node_modules/.bin:$PATH"
 
-# Authorize SSH Host
-RUN mkdir -p /root/.ssh && \
-    chmod 0700 /root/.ssh && \
-    ssh-keyscan github.com > /root/.ssh/known_hosts
+# If you're installing Chrome manually, uncomment and use the following lines
+# RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+# RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+# RUN apt-get update && apt-get install -y google-chrome-stable && rm -rf /var/lib/apt/lists/*
 
-# Add the SSH key
-ARG SSH_PRIVATE_KEY
-RUN echo "$SSH_PRIVATE_KEY" > /root/.ssh/id_rsa && \
-    chmod 600 /root/.ssh/id_rsa
+# Set the working directory in the container to /app
+WORKDIR /app
 
-# Clone the repository
-RUN git clone https://github.com/dukov777/webcrawler.git
+# Copy the current directory contents into the container at /app
+COPY . /app
 
-# Switch to the repository directory
-WORKDIR /app/webcrawler
-
-# Install your app dependencies inside the container
+# Install any needed packages specified in package.json
 RUN npm install
 
-# Remove SSH keys
-# RUN rm -rf /root/.ssh
+# Make port 80 available to the world outside this container
+EXPOSE 80
 
-# Your application will bind to port 8080, so you'll use the EXPOSE instruction to have it mapped by the docker daemon
-EXPOSE 8080
-
-# Define the command to run your app (can be overridden in `docker run`)
 CMD [ "bash" ]
+
