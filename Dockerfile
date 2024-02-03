@@ -14,9 +14,12 @@ RUN apt-get update && apt-get install -y \
     libgbm-dev \
     git \
     openssh-client \
-    # other dependencies...
+    chromium \
     --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
+
+# apt-get update
+# apt-get install -y chromium
 
 # Authorize SSH Host
 RUN mkdir -p /root/.ssh && \
@@ -29,13 +32,13 @@ RUN echo "$SSH_PRIVATE_KEY" > /root/.ssh/id_rsa && \
     chmod 600 /root/.ssh/id_rsa
 
 # Clone the repository
-# RUN git clone git@github.com:dukov777/webcrawler.git
+RUN git clone https://github.com/dukov777/webcrawler.git
 
 # Switch to the repository directory
 WORKDIR /app/webcrawler
 
 # Install your app dependencies inside the container
-# RUN npm install
+RUN npm install
 
 # Remove SSH keys
 # RUN rm -rf /root/.ssh

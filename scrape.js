@@ -34,6 +34,7 @@ const argv = yargs(hideBin(process.argv)).option('url', {
       '--no-sandbox',
     ],
     headless: "new", executablePath: '/usr/bin/chromium'
+    // headless: "new", executablePath: '/snap/bin/chromium'
     // headless: "new", executablePath: '/opt/homebrew/bin/chromium'
   });
 
