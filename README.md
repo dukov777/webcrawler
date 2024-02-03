@@ -1,5 +1,9 @@
 # webcrawler
-scripts for searching inside apple refurbished site
+Scripts for searching inside apple refurbished site.
+Tested on MasOS Apple silicon 
+
+# Installation
+Install Chromium `brew install --cask chromium`
 
 # Running the script
 
