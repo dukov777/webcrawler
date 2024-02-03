@@ -4,25 +4,32 @@ FROM --platform=linux/amd64 node:16-buster
 # Set environment variables for headless chrome
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 
-# Install dependencies required for headless Chrome
+# Install dependencies required for headless Chrome and audio support
 RUN apt-get update && apt-get install -y \
     wget \
     gnupg \
     ca-certificates \
     apt-transport-https \
     software-properties-common \
+    libnss3 \
+    libnspr4 \
+    libatk1.0-0 \
+    libatk-bridge2.0-0 \
+    libcups2 \
+    libdbus-1-3 \
+    libdrm2 \
+    libexpat1 \
+    libgbm1 \
+    libgtk-3-0 \
+    libxkbcommon0 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxfixes3 \
+    libxrandr2 \
+    libxshmfence1 \
+    xdg-utils \
+    libasound2 \
     && rm -rf /var/lib/apt/lists/*
-
-# If you're using Puppeteer, install it globally
-# WORKDIR /node_modules
-# RUN npm install puppeteer
-# # Add Puppeteer to PATH
-# ENV PATH="/node_modules/.bin:$PATH"
-
-# If you're installing Chrome manually, uncomment and use the following lines
-# RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-# RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
-# RUN apt-get update && apt-get install -y google-chrome-stable && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory in the container to /app
 WORKDIR /app
