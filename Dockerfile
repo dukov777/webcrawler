@@ -20,6 +20,7 @@ RUN apt-get update && apt-get install -y \
 
 # apt-get update
 # apt-get install -y chromium
+ENV CHROMIUM /usr/bin/chromium
 
 # Authorize SSH Host
 RUN mkdir -p /root/.ssh && \

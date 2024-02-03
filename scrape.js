@@ -18,6 +18,7 @@ const argv = yargs(hideBin(process.argv)).option('url', {
   })
   .argv;
 
+
 (async () => {
   const scraping_page = argv.url;
   const pricecap = argv.pricecap;
@@ -27,13 +28,21 @@ const argv = yargs(hideBin(process.argv)).option('url', {
     return;
   }
 
+  const chromium_path = process.env.CHROMIUM;
+
+  if (!chromium_path) {
+      console.log('Environment variable CHROMIUM is not set');
+      return;
+  }
+
   console.log(`Scrapping page: ${scraping_page}`);
 
   const browser = await puppeteer.launch({
     args: [
       '--no-sandbox',
     ],
-    headless: "new", executablePath: '/usr/bin/chromium'
+    headless: "new", executablePath: chromium_path
+    // headless: "new", executablePath: '/usr/bin/chromium'
     // headless: "new", executablePath: '/snap/bin/chromium'
     // headless: "new", executablePath: '/opt/homebrew/bin/chromium'
   });
